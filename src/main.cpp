@@ -1,16 +1,15 @@
-#include "Cosa/RTT.hh"
+//#include "Cosa/RTT.hh"
 #include "Cosa/OutputPin.hh"
 #include "Cosa/Watchdog.hh"
 
+//using namespace Board;
+
 void blink(OutputPin pin, uint8_t times, uint16_t ms);
-using namespace Board;
 
-enum DigitalPin myPin = D31;
-
-OutputPin myLED(myPin);
+OutputPin myLED(Board::D33);
 
 void setup() {
-    RTT::begin();
+    //RTT::begin();
 	Watchdog::begin();
 }
 
