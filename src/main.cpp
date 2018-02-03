@@ -2,31 +2,50 @@
 #include "Cosa/OutputPin.hh"
 #include "Cosa/InputPin.hh"
 #include "Cosa/Watchdog.hh"
+#include "Cosa/AnalogPin.hh"
+#include "Cosa/Trace.hh"
+#include "Cosa/UART.hh"
 
 //using namespace Board;
 
 void blink(OutputPin pin, uint8_t times, uint16_t ms);
 void sensorLoop();
+void readBalluffPhotoelectric();
 
 OutputPin myLED(Board::D33);
 
 OutputPin trigPin(Board::D23);
 InputPin echoPin(Board::D25);
 
+AnalogPin analogPin(Board::A8);
+
 void setup() {
     //RTT::begin();
+	uart.begin(9600);
+	trace.begin(&uart, PSTR("TEST STARTED\n"));
 	Watchdog::begin();
 }
 
 void loop() {
-	sensorLoop();
-	Watchdog::delay(1000);
+	
+	//trace << "trace test" << endl;
+	//TRACE("TEST\n");
+	//sensorLoop();
+	readBalluffPhotoelectric();
+	Watchdog::delay(2000);
 	/*blink(myLED, 3, 333);
 	Watchdog::delay(1000);*/
     /*ledPin.on();
     delay(50);
     ledPin.off();
     delay(500);*/
+}
+
+void readBalluffPhotoelectric()
+{
+	analogPin.powerup();
+	trace << analogPin.sample() << endl;
+	analogPin.powerdown();
 }
 
 void blink(OutputPin pin, uint8_t times, uint16_t ms) {
