@@ -18,6 +18,7 @@ OutputPin trigPin(Board::D23);
 InputPin echoPin(Board::D25);
 
 AnalogPin analogPin(Board::A8);
+InputPin pnpPin(Board::D24);
 
 void setup() {
     //RTT::begin();
@@ -46,6 +47,7 @@ void readBalluffPhotoelectric()
 	analogPin.powerup();
 	trace << analogPin.sample() << endl;
 	analogPin.powerdown();
+	trace << pnpPin.is_on() << endl;
 }
 
 void blink(OutputPin pin, uint8_t times, uint16_t ms) {
